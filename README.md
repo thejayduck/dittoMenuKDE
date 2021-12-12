@@ -2,6 +2,8 @@
 This fork of Ditto Menu includes
 - More Customization Options
 - Fixed Favorites Panel
+
+
 menu launcher for plasma KDE
 
 Download from: [https://www.pling.com/p/1312669/](https://www.pling.com/p/1312669/)
