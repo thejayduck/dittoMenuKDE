@@ -276,54 +276,78 @@ PlasmaCore.Dialog {
             }
         }
 
-        Image {
-            id: iconUser
-            anchors {
+        RowLayout {
+            id: nameAndIcon
+            
+            anchors{
+                leftMargin: units.largeSpacing * 3
+
                 horizontalCenter: parent.horizontalCenter
                 top: parent.top
-                topMargin: units.largeSpacing
+                topMargin: rowTop.height
             }
 
-            source: kuser.faceIconUrl.toString() || "user-identity"
-            cache: false
-            visible: source !== "" && plasmoid.configuration.viewUser
-            height: plasmoid.configuration.viewUser ? units.gridUnit * plasmoid.configuration.avatarSize : units.iconSizes.smallMedium  // FIXME
-            width: height
-            sourceSize.width: width
-            sourceSize.height: height
-
-            fillMode: Image.PreserveAspectFit
-
-
-            // Crop the avatar to fit in a circle, like the lock and login screens
-            // but don't on software rendering where this won't render
-            layer.enabled:true // iconUser.GraphicsInfo.api !== GraphicsInfo.Software
-            layer.effect: OpacityMask {
-                // this Rectangle is a circle due to radius size
-                maskSource: Rectangle {
-                    width: iconUser.width
-                    height: iconUser.height
-                    radius: height / 2
-                    visible: false
+            Image {
+                id: iconUser
+                anchors {
+                    top: parent.top
+                    topMargin: units.smallSpacing
                 }
+
+                source: kuser.faceIconUrl.toString() || "user-identity"
+                cache: false
+                visible: source !== "" && plasmoid.configuration.viewUser
+                height: plasmoid.configuration.viewUser ? units.gridUnit * plasmoid.configuration.avatarSize : units.iconSizes.smallMedium  // FIXME
+                width: height
+                sourceSize.width: width
+                sourceSize.height: height
+
+                fillMode: Image.PreserveAspectFit
+
+                // Crop the avatar to fit in a circle, like the lock and login screens
+                // but don't on software rendering where this won't render
+                layer.enabled:true // iconUser.GraphicsInfo.api !== GraphicsInfo.Software
+                layer.effect: OpacityMask {
+                    // this Rectangle is a circle due to radius size
+                    maskSource: Rectangle {
+                        width: iconUser.width
+                        height: iconUser.height
+                        radius: height / 2
+                        visible: false
+                    }
+                }
+            }
+
+            PlasmaExtras.Heading {
+                id: nameUser
+                anchors {
+
+                    left: plasmoid.configuration.viewUser ?? iconUser.right
+                    verticalCenter: plasmoid.configuration.viewUser ? iconUser.verticalCenter : nameAndIcon.verticalCenter
+                    leftMargin: units.largeSpacing
+                }
+
+                text: plasmoid.configuration.nameDisplay ? kuser.fullName : kuser.loginName
+                color: theme.textColor
+
             }
 
             MouseArea {
-                anchors.fill: parent
-                acceptedButtons: Qt.LeftButton
-                cursorShape: Qt.PointingHandCursor
-                onClicked: {
-                    KCMShell.open("kcm_users")
+                    anchors.fill: parent
+                    acceptedButtons: Qt.LeftButton
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: {
+                        KCMShell.open("kcm_users")
+                    }
+                    visible: KCMShell.authorize("user_manager.desktop").length > 0
                 }
-                visible: KCMShell.authorize("user_manager.desktop").length > 0
-            }
         }
 
         PlasmaComponents.TextField {
             id: searchField
             anchors{
-                top: plasmoid.configuration.viewUser ? iconUser.bottom : rowTop.bottom
-                topMargin: units.largeSpacing
+                top: plasmoid.configuration.viewUser ? nameAndIcon.bottom : rowTop.bottom
+                topMargin: nameAndIcon.height / 2
                 left: parent.left
                 right: parent.right
                 leftMargin:  units.largeSpacing * 3
@@ -338,8 +362,6 @@ PlasmaCore.Dialog {
             onTextChanged: {
                 runnerModel.query = text;
             }
-
-
 
             Keys.onPressed: {
                 if (event.key == Qt.Key_Down) {

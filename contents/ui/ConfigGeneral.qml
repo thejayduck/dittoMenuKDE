@@ -53,6 +53,7 @@ Item {
     property alias cfg_labels2lines: labels2lines.checked
     property alias cfg_smallerIcons: smallerIcons.checked
     property alias cfg_avatarSize: avatarSize.value
+    property alias cfg_nameDisplay: nameDisplay.checked
     property alias cfg_displayPosition: displayPosition.currentIndex
 
     ColumnLayout {
@@ -239,6 +240,10 @@ Item {
                 CheckBox {
                     id: smallerIcons
                     text: i18n("Reduce icon size")
+                }
+                CheckBox {
+                    id: nameDisplay
+                    text: i18n("Display Full Name")
                 }
                 RowLayout{
                     Layout.fillWidth: true
