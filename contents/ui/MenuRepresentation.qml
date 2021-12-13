@@ -246,6 +246,14 @@ PlasmaCore.Dialog {
                 onClicked: logic.openUrl("file:///usr/share/applications/systemsettings.desktop")
             }
 
+            ListDelegate {
+                text: "Open File Explorer"
+                highlight: delegateHighlight
+                icon: "fileopen"
+                size: units.iconSizes.smallMedium
+                onClicked: logic.openUrl("file:///home")
+            }
+
             Item{
                 Layout.fillWidth: true
             }
@@ -653,6 +661,7 @@ PlasmaCore.Dialog {
                 }
             }
         }
+        
 
         Keys.onPressed: {
             if (event.key == Qt.Key_Escape) {
