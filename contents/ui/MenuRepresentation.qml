@@ -234,7 +234,6 @@ PlasmaCore.Dialog {
                 right: parent.right
                 top: parent.top
                 margins: units.smallSpacing
-                topMargin: units.largeSpacing
             }
 
             ListDelegate {
@@ -284,7 +283,6 @@ PlasmaCore.Dialog {
 
                 horizontalCenter: parent.horizontalCenter
                 top: parent.top
-                topMargin: rowTop.height
             }
 
             Image {
