@@ -3,6 +3,8 @@ This fork of Ditto Menu includes
 - More Customization Options
 - Fixed Favorites Panel
 
+Issues
+- Menu breaks on profile image change
 
 menu launcher for plasma KDE
 
